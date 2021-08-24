@@ -1,4 +1,4 @@
-import {doEDMAS} from './modules/operations.js'
+import {doEDMAS} from './operations.js'
 
 export function numberInp(num) {
   currDisplay = document.getElementById("display");
