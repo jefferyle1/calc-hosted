@@ -1,6 +1,6 @@
 // A Project by Jeffery Le
 
-import {doEDMAS} from './modules/operations.js'
+
 import  {numberInp, operatorInp, brackInp, evalInp, clearDisplay, backspace} from './modules/input.js'
 
 
