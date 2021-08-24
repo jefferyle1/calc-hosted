@@ -1,6 +1,6 @@
 // A Project by Jeffery Le
 
-//FUNCTIONS/
+//FUNCTIONS
 function add(a, b) {
   a = Number(a);
   b = Number(b);
@@ -70,53 +70,6 @@ function operate(a, operator, b) {
             "Error";
 }
 
-
-//DECLARATIONS AND ASSIGNMENTS
-let possibleOperators = ["+", "-", "x", "÷", "^", "("]
-let nonNumExceptions = [".", ")", "("]
-let wipeList = ["0", "ERROR"];
-
-let wipeable = false;
-
-// CODE FOR KEYBOARD INPUT
-document.addEventListener("keypress", function (event) {
-  var keyC = event.keyCode;
-  var inp = String.fromCharCode(keyC);
-  let disp = document.getElementById("display").innerHTML
-  if (event.key == "Enter" || inp == "=") {
-    eval();
-  }
-  else if (inp == ")" || inp == "(") {
-    brackInp(inp);
-  } else if (possibleOperators.includes(inp) == true) {
-    operator(inp);
-  } else if (inp == "X" || inp == "*") {
-    operator("x");
-  } else if (inp == "/") {
-    operator("÷");
-  } else if (isNaN(inp) == false || inp == ".") {
-    numberInp(inp);
-  } else if (event.keyCode == 127) { 
-    clearDisplay();
-  }
-});
-
-window.addEventListener("keydown", function (e) {
-  if (e.keyCode == 8) {
-    e.preventDefault();
-    backspace();
-  }
-
-});
-
-
-// EVENT LISTENER FOR NUMBERS BUTTONS 
-document.querySelectorAll('.number').forEach(numButt => {
-  numButt.addEventListener("click", event => {
-    numberInp(numButt.innerHTML);
-  })
-})
-
 function numberInp(num) {
   currDisplay = document.getElementById("display");
 
@@ -163,14 +116,6 @@ function operator(op) {
   }
 }
 
-// EVENT LISTENER FOR OPERATORS
-document.querySelectorAll('.operator').forEach(opButt => {
-  opButt.addEventListener("click", event => {
-    operator(opButt.innerHTML);
-  })
-})
-
-
 function brackInp (brack) { 
   currDisplay = document.getElementById("display");
 
@@ -188,18 +133,6 @@ function brackInp (brack) {
     //ADDS BRACKET TO DISPLAY
     currDisplay.innerHTML = currDisplay.innerHTML + " " + brack + " ";
 }
-
-// EVENT LISTENER FOR BRACKETS
-document.querySelectorAll('.bracket').forEach(brButt => {
-  brButt.addEventListener("click", event => {
-    brackInp(brButt.innerHTML);
-  })
-})
-
-// EVENT LISTENER FOR EQUALS
-document.querySelector('.equals').addEventListener("click", event => {
-  eval();
-})
 
 function eval() {
   currDisplay = document.getElementById("display");
@@ -262,12 +195,6 @@ function clearDisplay() {
   document.getElementById("display").innerHTML = "0";
 }
 
-// EVENT LISTENER FOR CLEAR
-document.querySelector('.clear').addEventListener("click", event => {
-  clearDisplay();
-})
-
-
 function backspace() {
   let currDisplay = document.getElementById("display");
 
@@ -299,6 +226,81 @@ function backspace() {
   }
 
 }
+
+
+//DECLARATIONS AND ASSIGNMENTS
+let possibleOperators = ["+", "-", "x", "÷", "^", "("]
+let nonNumExceptions = [".", ")", "("]
+let wipeList = ["0", "ERROR"];
+
+let wipeable = false;
+
+// EVENT LISTENER FOR KEYBOARD INPUT
+document.addEventListener("keypress", function (event) {
+  var keyC = event.keyCode;
+  var inp = String.fromCharCode(keyC);
+  let disp = document.getElementById("display").innerHTML
+  if (event.key == "Enter" || inp == "=") {
+    eval();
+  }
+  else if (inp == ")" || inp == "(") {
+    brackInp(inp);
+  } else if (possibleOperators.includes(inp) == true) {
+    operator(inp);
+  } else if (inp == "X" || inp == "*") {
+    operator("x");
+  } else if (inp == "/") {
+    operator("÷");
+  } else if (isNaN(inp) == false || inp == ".") {
+    numberInp(inp);
+  } else if (event.keyCode == 127) { 
+    clearDisplay();
+  }
+});
+
+// EVENT LISTENER FOR BACKSPACE
+window.addEventListener("keydown", function (e) {
+  if (e.keyCode == 8) {
+    e.preventDefault();
+    backspace();
+  }
+
+});
+
+// EVENT LISTENER FOR NUMBERS BUTTONS 
+document.querySelectorAll('.number').forEach(numButt => {
+  numButt.addEventListener("click", event => {
+    numberInp(numButt.innerHTML);
+  })
+})
+
+
+// EVENT LISTENER FOR OPERATORS
+document.querySelectorAll('.operator').forEach(opButt => {
+  opButt.addEventListener("click", event => {
+    operator(opButt.innerHTML);
+  })
+})
+
+
+// EVENT LISTENER FOR BRACKETS
+document.querySelectorAll('.bracket').forEach(brButt => {
+  brButt.addEventListener("click", event => {
+    brackInp(brButt.innerHTML);
+  })
+})
+
+// EVENT LISTENER FOR EQUALS
+document.querySelector('.equals').addEventListener("click", event => {
+  eval();
+})
+
+
+// EVENT LISTENER FOR CLEAR
+document.querySelector('.clear').addEventListener("click", event => {
+  clearDisplay();
+})
+
 
 // EVENT LISTENER FOR BACKSPACE
 document.querySelector('.backspace').addEventListener("click", event => {
