@@ -1,7 +1,12 @@
+import {doEDMAS} from './operations.js'
+
+let possibleOperators = ["+", "-", "x", "÷", "^", "("]
+let nonNumExceptions = [".", ")", "("]
+let wipeList = ["0", "ERROR"];
 
 
-export function numberInp(num) {
-  currDisplay = document.getElementById("display");
+export function numberInp(num, wipeable) {
+  let currDisplay = document.getElementById("display");
 
   //WIPES DISPLAY
   if (wipeable == true) {
@@ -16,16 +21,17 @@ export function numberInp(num) {
 
   //GETS LAST CHARACTER IN THE DISPLAY
   let trimmedDisplay = currDisplay.innerHTML.replace(/\s/g, '');
-  lastChar = trimmedDisplay.charAt(trimmedDisplay.length - 1);
+  let lastChar = trimmedDisplay.charAt(trimmedDisplay.length - 1);
 
   //ADDS NUMBER TO DISPLAY
   if (!(num == "." && lastChar == ".")) {
     currDisplay.innerHTML = currDisplay.innerHTML + num;
   }
+  return wipeable;
 }
 
-export function operatorInp(op) {
-  currDisplay = document.getElementById("display");
+export function operatorInp(op, wipeable) {
+  let currDisplay = document.getElementById("display");
 
   wipeable = false;
 
@@ -36,7 +42,7 @@ export function operatorInp(op) {
 
   //GETS LAST CHARACTER
   let trimmedDisplay = currDisplay.innerHTML.replace(/\s/g, '');
-  lastChar = trimmedDisplay.charAt(trimmedDisplay.length - 1);
+  let lastChar = trimmedDisplay.charAt(trimmedDisplay.length - 1);
 
   //ADDS OPERATOR TO DISPLAY
   if ((op == "-") && ((possibleOperators.includes(lastChar) || currDisplay.innerHTML == ""))) {
@@ -44,10 +50,11 @@ export function operatorInp(op) {
   } else if ((isNaN(lastChar) == false || nonNumExceptions.includes(lastChar)) && currDisplay.innerHTML != "") {
     currDisplay.innerHTML = currDisplay.innerHTML + " " + op + " ";
   }
+  return wipeable;
 }
 
-export function brackInp (brack) { 
-  currDisplay = document.getElementById("display");
+export function brackInp (brack, wipeable) { 
+  let currDisplay = document.getElementById("display");
 
     //WIPES DISPLAY
     if (wipeable == true) {
@@ -62,10 +69,12 @@ export function brackInp (brack) {
 
     //ADDS BRACKET TO DISPLAY
     currDisplay.innerHTML = currDisplay.innerHTML + " " + brack + " ";
+
+    return wipeable;
 }
 
-export function evalInp() {
-  currDisplay = document.getElementById("display");
+export function evalInp(wipeable) {
+  let currDisplay = document.getElementById("display");
 
   //REMOVES EMPTY STRINGS FROM ARRAY
   let calcMemory = currDisplay.innerHTML.trim().split(" ");
@@ -78,6 +87,7 @@ export function evalInp() {
   let brackR = 0;
   let i = -1;
   let errorPresent = false;
+  let tempArray;
 
   //WHILE LOOP THAT STOPS WHEN THERE'S NO MORE BRACKETS OR ERROR
   while (calcMemory.includes("(") && (errorPresent == false)) {
@@ -103,7 +113,6 @@ export function evalInp() {
     if (i > 99) {
       errorPresent = true;
     }
-
   }
 
   //DISPLAYS FLOAT OR INTEGER
@@ -119,18 +128,19 @@ export function evalInp() {
   }
 
   wipeable = true;
+  return wipeable;
 }
 
 export function clearDisplay() {
   document.getElementById("display").innerHTML = "0";
 }
 
-export function backspace() {
+export function backspace(wipeable) {
   let currDisplay = document.getElementById("display");
 
   //GETS LAST CHAR
   let trimmedDisplay = currDisplay.innerHTML.replace(/\s/g, '');
-  lastChar = trimmedDisplay.charAt(trimmedDisplay.length - 1);
+  let lastChar = trimmedDisplay.charAt(trimmedDisplay.length - 1);
 
   //TRIMS DISPLAY IF THERE'S A SPACE
   if (lastChar = " ") {
@@ -148,81 +158,12 @@ export function backspace() {
   }
 
   //REMOVES LAST CHARACTER
-  console.log(currDisplay.innerlength)
   if (currDisplay.innerHTML.length == 1) {
     currDisplay.innerHTML = "0";
   } else if (currDisplay.innerHTML != "0") {
     currDisplay.innerHTML = currDisplay.innerHTML.slice(0, currDisplay.innerHTML.length - 1);
   }
-
-}
-
-function add(a, b) {
-  a = Number(a);
-  b = Number(b);
-  return a + b;
-}
-
-function subtract(a, b) {
-  a = Number(a);
-  b = Number(b);
-  return a - b;
-}
-
-function multiply(a, b) {
-  a = Number(a);
-  b = Number(b);
-  return a * b;
-}
-
-function divide(a, b) {
-  a = Number(a);
-  b = Number(b);
-  return a / b;
-}
-
-function power(a, b) {
-  a = Number(a);
-  b = Number(b);
-  return Math.pow(a, b);
-}
-
-function operate(a, operator, b) {
-  return (operator == "+") ? add(a, b) :
-    (operator == "-") ? subtract(a, b) :
-      (operator == "x") ? multiply(a, b) :
-        (operator == "÷") ? divide(a, b) :
-          (operator == "^") ? power(a, b) :
-            "Error";
+  return wipeable;
 }
 
 
-export function doEDMAS(arr) {
-
-  let tempValue = 0;
-
-  //EXPONENT
-  while (arr.indexOf("^") != -1) {
-    let i = arr.indexOf("^");
-    tempValue = operate(arr[i - 1], arr[i], arr[i + 1]);
-    arr.splice(i - 1, 3, tempValue);
-  }
-
-  //DIVISION AND MULTIPLICATION
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] == "x" || arr[i] == "÷") {
-      tempValue = operate(arr[i - 1], arr[i], arr[i + 1]);
-      arr.splice(i - 1, 3, tempValue);
-      i = i - 1;
-    }
-  }
-
-  //ADDITION AND SUBTRACTION
-  while (arr.length != 1) {
-    tempValue = operate(arr[0], arr[1], arr[2]);
-    arr.splice(0, 3, tempValue);
-  }
-
-  return arr[0].toString();
-
-}
