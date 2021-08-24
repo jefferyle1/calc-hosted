@@ -1,7 +1,7 @@
 // A Project by Jeffery Le
 
-import {doEDMAS} from './modules/operations.js';
-import  {numberInp, operatorInp, brackInp, evalInp, clearDisplay, backspace} from './modules/input.js';
+// import {doEDMAS} from './modules/operations.js';
+import  {doEDMAS, numberInp, operatorInp, brackInp, evalInp, clearDisplay, backspace} from './modules/input.js';
 
 
 //DECLARATIONS AND ASSIGNMENTS
