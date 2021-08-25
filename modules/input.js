@@ -1,6 +1,6 @@
 import {doEDMAS} from './operations.js'
 
-let possibleOperators = ["+", "-", "x", "÷", "^", "("]
+let possibleOperators = ["+", "-", "x", "÷", "^", "(", ")"]
 let nonNumExceptions = [".", ")", "("]
 let wipeList = ["0", "ERROR"];
 
@@ -158,10 +158,13 @@ export function backspace(wipeable) {
   }
 
   //REMOVES LAST CHARACTER
-  if (currDisplay.innerHTML.length == 1) {
+  let str = currDisplay.innerHTML 
+  if (str.length == 1) {
     currDisplay.innerHTML = "0";
+  } else if (possibleOperators.includes(str.charAt(str.length - 1))) {
+    currDisplay.innerHTML = str.substring(0, str.length - 2);
   } else if (currDisplay.innerHTML != "0") {
-    currDisplay.innerHTML = currDisplay.innerHTML.slice(0, currDisplay.innerHTML.length - 1);
+    currDisplay.innerHTML = str.substring(0, str.length - 1);
   }
   return wipeable;
 }
