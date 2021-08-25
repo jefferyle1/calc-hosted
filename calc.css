@@ -93,7 +93,7 @@ button {
 }
 
 
-@media only screen and (min-width: 720px) {
+@media (min-aspect-ratio:4/4) {
   .page { 
     min-height: 100vh;
     background-color: red;
